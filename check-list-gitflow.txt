@@ -1,0 +1,184 @@
+# 🌊 Git Flow Padrão do Projeto
+
+## 🧱 Estrutura de Branches
+
+### Branches principais (intocáveis)
+
+* **`main`** → produção (sempre estável)
+* **`develop`** → integração contínua (opcional, mas recomendado)
+
+> Regra de ouro: **ninguém commita direto na `main`**. Nem o dono 😅
+
+---
+
+### Branches de trabalho
+
+* **`feature/*`** → novas funcionalidades
+* **`hotfix/*`** → correções urgentes em produção
+* **`release/*`** → preparação de versão (opcional)
+
+---
+
+## 📛 Padrão de Nomeclatura
+
+```text
+feature/login-usuario
+feature/api-permissoes
+hotfix/corrige-token-expirado
+release/v1.2.0
+```
+
+Sem espaço, sem acento, tudo minúsculo. Git agradece.
+
+---
+
+## 🔁 Fluxo Completo do Início ao Fim
+
+### 1️⃣ Clonar o repositório
+
+```bash
+git clone https://github.com/seu-usuario/seu-repo.git
+cd seu-repo
+```
+
+---
+
+### 2️⃣ Garantir que a `main` está atualizada
+
+```bash
+git checkout main
+git pull origin main
+```
+
+---
+
+### 3️⃣ Criar (ou atualizar) a branch `develop`
+
+```bash
+git checkout -b develop
+git push -u origin develop
+```
+
+> Se o projeto for simples, **dá pra trabalhar direto a partir da `main`**, mas o modelo clássico usa `develop`.
+
+---
+
+## 🚀 Criando uma Feature
+
+### 4️⃣ Criar uma feature a partir da `develop` (ou `main`)
+
+```bash
+git checkout develop
+git pull origin develop
+git checkout -b feature/nome-da-feature
+```
+
+---
+
+### 5️⃣ Trabalhar normalmente
+
+```bash
+git status
+git add .
+git commit -m "feat: adiciona validação de permissões"
+```
+
+💡 **Commits pequenos e objetivos**. Nada de:
+
+> "ajustes", "coisas", "teste final agora vai" 🙄
+
+---
+
+### 6️⃣ Enviar a feature para o repositório remoto
+
+```bash
+git push -u origin feature/nome-da-feature
+```
+
+---
+
+## 🔀 Pull Request (PR)
+
+### 7️⃣ Criar Pull Request
+
+No GitHub / GitLab:
+
+* **Base:** `develop`
+* **Compare:** `feature/nome-da-feature`
+* Descrição clara:
+
+  * O que foi feito
+  * O que impacta
+  * Se quebra algo
+
+---
+
+### 8️⃣ Revisão e Merge
+
+Após aprovado:
+
+* **Merge tipo:** `Squash and merge` (recomendado)
+* Apagar a branch da feature após o merge
+
+---
+
+## 🧹 Limpeza local pós-merge
+
+```bash
+git checkout develop
+git pull origin develop
+git branch -d feature/nome-da-feature
+```
+
+---
+
+## 🔥 Hotfix (Correção Urgente em Produção)
+
+### 9️⃣ Criar hotfix a partir da `main`
+
+```bash
+git checkout main
+git pull origin main
+git checkout -b hotfix/corrige-bug-critico
+```
+
+---
+
+### 🔧 Corrigir e commitar
+
+```bash
+git add .
+git commit -m "fix: corrige falha crítica no token"
+git push -u origin hotfix/corrige-bug-critico
+```
+
+---
+
+### 🔁 Pull Request do Hotfix
+
+* **Base:** `main`
+* Após merge:
+
+  * Criar PR da `main` → `develop` (para manter tudo sincronizado)
+
+---
+
+## 🏷️ Versionamento (Opcional, mas elegante)
+
+```bash
+git tag -a v1.2.0 -m "Release versão 1.2.0"
+git push origin v1.2.0
+```
+
+Projeto com tag é projeto adulto 😌
+
+---
+
+## 📜 Resumo Rápido do Fluxo
+
+```text
+main        → produção
+develop     → integração
+feature/*   → novas funcionalidades
+hotfix/*    → correções urgentes
+```
