@@ -14,7 +14,7 @@ services:
       - redis
     networks:
       - laravel
-      # - rede_docker_olicode
+      - rede_docker_olicode
   
   # Processador de Filas (Importação de Clientes CSV)
   queue:
@@ -94,5 +94,5 @@ services:
 networks:
   laravel:
     driver: bridge
-  # rede_docker_olicode:
-  #   external: true
+  rede_docker_olicode:
+    external: true
