@@ -1,0 +1,37 @@
+# Ambiente
+.env
+.env.*
+.env.backup
+.env.production
+/auth.json
+
+# Dependências
+/vendor
+/node_modules
+
+# Build e assets
+/public/build
+/public/hot
+/public/storage
+
+# Storage sensível
+/storage/*.key
+/storage/pail
+/storage/logs/*
+/storage/framework/*
+
+# Cache e testes
+.phpunit.result.cache
+/.phpunit.cache
+
+# IDEs e ferramentas
+/.idea
+/.vscode
+/.fleet
+/.zed
+/.nova
+.phpactor.json
+
+# Sistema
+.DS_Store
+Thumbs.db

@@ -1,0 +1,65 @@
+# =====================================================
+# Normalização de texto e fim de linha
+# =====================================================
+# Força LF em qualquer sistema (Windows, Linux, macOS)
+* text=auto eol=lf
+
+# =====================================================
+# Linguagens e diffs mais inteligentes
+# =====================================================
+*.php        diff=php
+*.blade.php  diff=html
+*.html       diff=html
+*.css        diff=css
+*.scss       diff=css
+*.js         diff=javascript
+*.ts         diff=typescript
+*.json       diff=json
+*.md         diff=markdown
+*.yml        diff=yaml
+*.yaml       diff=yaml
+*.xml        diff=xml
+*.sql        diff=sql
+
+# =====================================================
+# Arquivos que NÃO devem sofrer conversão de EOL
+# =====================================================
+*.png        binary
+*.jpg        binary
+*.jpeg       binary
+*.gif        binary
+*.svg        binary
+*.ico        binary
+*.pdf        binary
+*.zip        binary
+*.tar        binary
+*.gz         binary
+
+# =====================================================
+# Shell scripts (importante para Docker / Linux)
+# =====================================================
+*.sh text eol=lf
+
+# =====================================================
+# Docker
+# =====================================================
+Dockerfile   text eol=lf
+*.dockerfile text eol=lf
+
+# =====================================================
+# Excluir arquivos de export (git archive / release)
+# =====================================================
+/.github            export-ignore
+/docs               export-ignore
+CHANGELOG.md        export-ignore
+.styleci.yml        export-ignore
+.editorconfig       export-ignore
+.gitattributes      export-ignore
+.gitignore          export-ignore
+
+# =====================================================
+# Laravel / Projeto
+# =====================================================
+.env.example        export-ignore
+phpunit.xml         export-ignore
+phpunit.xml.dist    export-ignore

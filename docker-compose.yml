@@ -1,0 +1,98 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        XDEBUG_MODE: ${XDEBUG_MODE}
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - db
+      - redis
+    networks:
+      - laravel
+      - rede_docker_olicode
+  
+  # Processador de Filas (Importação de Clientes CSV)
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    working_dir: /var/www
+    command: php artisan queue:work
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - db
+      - redis
+    networks:
+      - laravel
+
+  # Agendador de Tarefas (Relatórios Semanais)
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    working_dir: /var/www
+    command: php artisan schedule:work
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - db
+    networks:
+      - laravel
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "8989:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/:/etc/nginx/conf.d/
+    depends_on:
+      - app
+    networks:
+      - laravel
+
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_INITDB_SKIP_TZINFO: 1
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    ports:
+      - "3305:3306"
+    networks:
+      - laravel
+
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+    networks:
+      - laravel
+
+  mailpit:
+    image: 'axllent/mailpit:latest'
+    restart: unless-stopped
+    ports:
+        - '8025:8025'
+        - '1025:1025'
+    networks:
+      - laravel
+
+networks:
+  laravel:
+    driver: bridge
+  rede_docker_olicode:
+    external: true

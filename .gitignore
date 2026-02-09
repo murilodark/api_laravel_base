@@ -1,0 +1,61 @@
+# ======================================
+# Laravel Core (API)
+# ======================================
+/api/vendor/
+/api/node_modules/
+/api/public/storage
+/api/public/hot
+/api/storage/*.key
+.phpunit.result.cache
+
+# ======================================
+# Ambiente
+# ======================================
+# Use api/.env.example como base
+/api/.env
+/api/.env.*
+
+# ======================================
+# Cache, logs e temporários
+# ======================================
+/api/storage/framework/cache/
+/api/storage/framework/sessions/
+/api/storage/framework/testing/
+/api/storage/framework/views/
+/api/storage/logs/*
+!/api/storage/logs/.gitignore
+
+# ======================================
+# Docker & Banco de Dados
+# ======================================
+docker/mysql/*
+docker/redis/*
+docker/*/data/*
+docker/*/logs/*
+
+*.sock
+*.lock
+mysql.sock
+
+# ======================================
+# Arquivos pessoais
+# ======================================
+comando-docker.txt
+*.sql
+*.sqlite
+
+# ======================================
+# IDEs e SO
+# ======================================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ======================================
+# Build / Testes
+# ======================================
+dist/
+coverage/
