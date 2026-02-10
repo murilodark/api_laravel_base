@@ -3,7 +3,7 @@
 .env.*
 .env.backup
 .env.production
-!/api/.env.example 
+!.env.example 
 
 # Dependências
 /vendor
