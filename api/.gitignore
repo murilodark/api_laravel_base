@@ -4,7 +4,7 @@
 .env.backup
 .env.production
 /auth.json
-!/api/.env.example
+!/api/.env.example 
 
 # Dependências
 /vendor
