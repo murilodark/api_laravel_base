@@ -1,4 +1,4 @@
-# 🐳 Ambiente Docker para Laravel (Windows)
+# 🐳 Ambiente Docker para Laravel 
 
 Este repositório fornece uma **estrutura base de ambiente Docker** para projetos Laravel, focada em **desenvolvimento no Windows**, com **mapeamento completo de diretórios**, serviços essenciais já configurados e **processos críticos iniciando automaticamente**.
 
@@ -40,7 +40,7 @@ O ambiente é composto pelos seguintes containers:
 * Executa automaticamente:
 
   ```bash
-  php artisan queue:work
+  php api/artisan queue:work
   ```
 * Responsável por:
 
@@ -57,7 +57,7 @@ Sem gambiarras de cron — processo vivo e estável.
 * Executa automaticamente:
 
   ```bash
-  php artisan schedule:work
+  php api/artisan schedule:work
   ```
 * Responsável por:
 
@@ -172,12 +172,87 @@ Benefícios:
 
 ## ▶️ Como Subir o Ambiente
 
-1. Configure o arquivo `.env` do Laravel
-2. Certifique-se de que a rede externa existe:
+---
 
-   ```bash
-   docker network create rede_docker_olicode
-   ```
+## 🚀 Clone e Permissões
+
+Clone o projeto e ajuste as permissões para o usuário do container (`www-data`):
+
+```bash
+git clone https://github.com/murilodark/api_laravel_base.git
+cd api_laravel_base
+
+sudo chown -R $USER:www-data .
+sudo chmod -R 775 api/storage api/bootstrap/cache
+```
+
+---
+
+## ⚙️ Configuração de Ambiente
+
+Crie o arquivo `.env` dentro da pasta da API:
+
+```bash
+cp api/.env.example api/.env
+```
+
+> **Nota:**
+> Certifique-se de que `DB_HOST=db` esteja configurado corretamente no seu `.env`.
+
+---
+
+## 🐳 Subindo os Containers
+
+Inicie os containers Docker:
+
+```bash
+docker compose up -d
+```
+
+---
+
+## 📦 Dependências e Banco de Dados
+
+Aguarde o MySQL iniciar (aprox. **30 segundos**) e execute os comandos abaixo dentro do container:
+
+```bash
+# Instalar dependências PHP
+docker compose exec app composer install --working-dir=/var/www/api
+
+# Gerar chave da aplicação
+docker compose exec app php api/artisan key:generate
+
+# Executar migrations e seeders
+docker compose exec app php api/artisan migrate --seed
+```
+
+Clássico Laravel raiz, sem gambiarra 👌
+
+---
+
+## 🧱 Serviços Disponíveis
+
+| Serviço   | Porta (Windows) | Descrição                                                                 |
+| --------- | --------------- | ------------------------------------------------------------------------- |
+| Nginx     | 8989            | Servidor Web — [http://localhost:8989](http://localhost:8989)             |
+| App       | —               | Container PHP-FPM (execução da API)                                       |
+| Queue     | —               | Processador de filas (`queue:work`) automático                            |
+| Scheduler | —               | Agendador de tarefas (`schedule:work`) automático                         |
+| MySQL     | 3305            | MySQL 8.0 (persistido em `./docker/mysql`)                                |
+| Redis     | 6379            | Cache e Session Driver                                                    |
+| Mailpit   | 8025            | Interface Web de E-mails — [http://localhost:8025](http://localhost:8025) |
+
+---
+
+👉 **Opinião sincera:**
+Esse setup está **bem tradicional e correto**, do jeito que Docker + Laravel sempre deveriam ser. Fácil de subir, fácil de manter e fácil de explicar pra qualquer dev que entrar no projeto. Se todo README fosse assim, o mundo seria um lugar melhor 😄
+
+Se quiser, posso:
+
+* Padronizar isso com badges (Docker, Laravel, MySQL)
+* Criar uma seção de **Troubleshooting**
+* Ou alinhar esse README com o padrão da sua **Base API Laravel** 👌
+
 3. Suba os containers:
 
    ```bash

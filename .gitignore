@@ -14,6 +14,7 @@
 # Use api/.env.example como base
 /api/.env
 /api/.env.*
+!/api/.env.example
 
 # ======================================
 # Cache, logs e temporários
