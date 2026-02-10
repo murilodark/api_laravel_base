@@ -36,3 +36,5 @@
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Docker e banco de dados
